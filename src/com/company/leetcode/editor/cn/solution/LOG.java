@@ -30,6 +30,8 @@ public class LOG {
             o2 = Arrays.stream(a2).boxed().collect(Collectors.toList());
         }
         System.out.printf("%s = %s,%s = %s", s1, o1, s2, o2);
+        System.out.println();
+
     }
 
     public static void log(String s1, Object o1, String s2, Object o2, String s3, Object o3) {
@@ -46,6 +48,8 @@ public class LOG {
             o3 = Arrays.stream(a3).boxed().collect(Collectors.toList());
         }
         System.out.printf("%s = %s,%s = %s,%s = %s", s1, o1, s2, o2, s3, o3);
+        System.out.println();
+
     }
 
     public static void log(String s1, Object o1, String s2, Object o2, String s3, Object o3, String s4, Object o4) {
@@ -58,6 +62,8 @@ public class LOG {
             o2 = Arrays.stream(a2).boxed().collect(Collectors.toList());
         }
         System.out.printf("%s = %s,%s = %s,%s = %s,%s = %s", s1, o1, s2, o2, s3, o3, s4, o4);
+        System.out.println();
+
     }
 
     public static void log(String s1, Object o1, String s2, Object o2, String s3, Object o3, String s4, Object o4, String s5, Object o5) {
@@ -70,5 +76,7 @@ public class LOG {
             o2 = Arrays.stream(a2).boxed().collect(Collectors.toList());
         }
         System.out.printf("%s = %s,%s = %s,%s = %s,%s = %s,%s = %s", s1, o1, s2, o2, s3, o3, s4, o4, s5, o5);
+        System.out.println();
+
     }
 }
