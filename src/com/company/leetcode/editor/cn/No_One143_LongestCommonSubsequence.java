@@ -62,21 +62,39 @@ public class No_One143_LongestCommonSubsequence {
          * 有一个优化点：dp[i-1][j-1]肯定小于等于dp[i-1][j]，就不用算了。因为s1[0,j-1]比s1[0,j]短嘛，那从这里面算出的lcs当然也不可能更长嘛。
          * 边界条件：s1，s2长度是0时，lcs长度都是0，即没有公共的
          */
+//        public int longestCommonSubsequence(String text1, String text2) {
+//            int[][] dp = new int[text1.length() + 1][text2.length() + 1];
+//            //边界条件：都是0,不需要手动赋值了
+//            //转移
+//            for (int i = 1; i < text1.length() + 1; i++) {
+//                for (int j = 1; j < text2.length() + 1; j++) {
+//                    if (text1.charAt(i-1) == text2.charAt(j-1)) {
+//                        dp[i][j] = dp[i - 1][j - 1] + 1;
+//                    } else {
+//                        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);//第三种情况自动省略
+//                    }
+//                }
+//            }
+//            //
+//            return dp[text1.length()][text2.length()];
+//        }
         public int longestCommonSubsequence(String text1, String text2) {
-            int[][] dp = new int[text1.length() + 1][text2.length() + 1];
-            //边界条件：都是0,不需要手动赋值了
-            //转移
-            for (int i = 1; i < text1.length() + 1; i++) {
-                for (int j = 1; j < text2.length() + 1; j++) {
-                    if (text1.charAt(i-1) == text2.charAt(j-1)) {
-                        dp[i][j] = dp[i - 1][j - 1] + 1;
+            int[] dp = new int[text2.length() + 1];
+            //初始化都是0
+            for (int i = 1; i <= text1.length(); i++) {
+                //dp[i] = 0 每轮的初始化 不过不需要了
+                int preI = 0;//上一轮里dp[i-1][0]的值，不过其实也是0
+                for (int j = 1; j <= text2.length(); j++) {
+                    int temp = dp[j];//下一轮i的，dp[i-1][j-1] 由于dp[j]在本轮j的赋值前，还是上一轮的j-1的值，所以需要事先保存。
+                    if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
+                        dp[j] = preI + 1;
                     } else {
-                        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);//第三种情况自动省略
+                        dp[j] = Math.max(dp[j], dp[j - 1]);
                     }
+                    preI = temp;
                 }
             }
-            //
-            return dp[text1.length()][text2.length()];
+            return dp[text2.length()];
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
