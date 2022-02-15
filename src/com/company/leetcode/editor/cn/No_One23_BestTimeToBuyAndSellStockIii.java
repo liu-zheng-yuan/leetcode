@@ -94,7 +94,7 @@ public class No_One23_BestTimeToBuyAndSellStockIii {
 
 
         //状态压缩
-        public int maxProfit(int[] prices) {
+        public int maxProfit2(int[] prices) {
             int n = prices.length;
             int k = 2;
             int[][] dp = new int[k + 1][2];
@@ -117,6 +117,27 @@ public class No_One23_BestTimeToBuyAndSellStockIii {
                 }
             }
             return dp[k][0];
+        }
+
+        public int maxProfit(int[] prices) {
+            int n = prices.length;
+            int[][][] dp = new int[n + 1][2 + 1][2];//i=0,k=0的边界情况都要计算，所以申请的dp数组要大1
+            //k = 0,i = 0的特殊情况，就不用像公众号里写在循环里了，单独写在外面更直观。
+            for (int i = 0; i <= n; i++) {
+                dp[i][0][1] = Integer.MIN_VALUE;
+            }
+            for (int i = 0; i <= 2; i++) {
+                dp[0][i][1] = Integer.MIN_VALUE;
+            }
+            //边界情况已经考虑完了，直接从有意义的第一天开始算，dp【1】 = prices【0】 起始点不同要减一
+            for (int i = 1; i <= n; i++) {
+                for (int k = 1; k <= 2; k++) {
+                    //将dp数组延长一位，用dp数组里的i，代表prices数组里的[i-1]的情况，即dp数组从0开始表示不可能的情况，dp数组的第1位才是真正prices数组的第0位。
+                    dp[i][k][0] = Math.max(dp[i - 1][k][0], dp[i - 1][k][1] + prices[i - 1]);
+                    dp[i][k][1] = Math.max(dp[i - 1][k][1], dp[i - 1][k - 1][0] - prices[i - 1]);
+                }
+            }
+            return dp[n][2][0];
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

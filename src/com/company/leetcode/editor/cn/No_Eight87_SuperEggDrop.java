@@ -70,7 +70,7 @@ public class No_Eight87_SuperEggDrop {
          * 最少步数 - 根选择优劣有关 - 取 i = 1-n 遍历中最小的步数Min
          */
         public int superEggDrop(int k, int n) {
-            return dp(k, n);
+            return dp2(k, n);
         }
 
         Map<String, Integer> memory = new HashMap<>();
@@ -147,6 +147,23 @@ public class No_Eight87_SuperEggDrop {
             return res;
         }
 
+        private int dp2(int k, int n) {
+            if (k == 1) return n;
+            if (n == 0) return 0;
+
+            //
+            String key = String.valueOf(k) + "-" + String.valueOf(n);
+            if (memory.containsKey(key)) {
+                return memory.get(key);
+            }
+
+            int res = Integer.MAX_VALUE;
+            for (int i = 1; i <= n; i++) {
+                res = Math.min(res, Math.max(dp2(k - 1, i - 1), dp2(k, n - i)) + 1);
+            }
+            memory.put(key, res);
+            return res;
+        }
     }
 //leetcode submit region end(Prohibit modification and deletion)
 

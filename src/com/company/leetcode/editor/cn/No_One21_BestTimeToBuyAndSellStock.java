@@ -75,7 +75,7 @@ public class No_One21_BestTimeToBuyAndSellStock {
         }
 
         //状态压缩
-        public int maxProfit(int[] prices) {
+        public int maxProfit2(int[] prices) {
             int n = prices.length;
             //
             int dp_0 = 0;//保留上一轮i循环里，rest=0，即没有持股情况下的dp值
@@ -94,6 +94,23 @@ public class No_One21_BestTimeToBuyAndSellStock {
                 dp_1 = Math.max(-prices[i], dp_1);//k-1 = 0时，dp[i-1][k-1][0] = 0，所以这里直接就是-prices[i]
             }
             return dp_0;
+        }
+
+        public int maxProfit(int[] prices) {
+            int n = prices.length;
+            int[][] dp = new int[n + 1][2];
+
+            for (int i = 0; i <= n; i++) {
+                //将dp数组延长一位，用dp数组里的i，代表prices数组里的[i-1]的情况，即dp数组从0开始表示不可能的情况，dp数组的第1位才是真正prices数组的第0位。
+                if (i - 1 == -1) {
+                    dp[i][0] = 0;
+                    dp[i][1] = Integer.MIN_VALUE;
+                    continue;
+                }
+                dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i - 1]);
+                dp[i][1] = Math.max(dp[i - 1][1], -prices[i - 1]);
+            }
+            return dp[n][0];
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
