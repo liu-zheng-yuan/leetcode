@@ -33,27 +33,20 @@ public class No_剑指Offer11_XuanZhuanShuZuDeZuiXiaoShuZiLcof {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int minArray(int[] numbers) {
-            int left = 0;
-            int right = numbers.length - 1;
-            //由于是旋转过来的，numbers[right] 不管right怎么减小，只要不超过旋转点，他的值 一定小于等于 [left,旋转点]
+            int left = 0, right = numbers.length - 1;
             while (left <= right) {
-                int target = numbers[right];//动态计算每一轮的target，记得要先算，不然后面right会被改变
+                int target = numbers[right];
                 int mid = (left + right) / 2;
-                int curValue = numbers[mid];
-                if (curValue > target) {
-                    left = mid + 1;//闭区间的需要+1，开区间的不用
-                } else if (curValue < target) {
-                    //说明mid可能是最小值，不能贸然right = mid -1，可能会错过最小值
+                int cur = numbers[mid];
+                if (cur > target) {
+                    left = mid + 1;
+                } else if (cur < target) {
                     right = mid;
-                } else if (curValue == target) {
-                    //因为是从右边找左边界
-                    //所以退出时一定是left = right + 1,且left在最小值上，此时right已经越过了最小值
-                    //所以不管此时是不是right = 最小值，都要right--
-                    right--;
+                } else if (cur == target) {
+                    right = right - 1;
                 }
             }
-            //不存在没有找到的情况
-            return numbers[left];
+            return numbers[left];//从右往左，找左边界，通过right < left 来退出循环，所以left就是满足条件的那一个，极端case[1,2]
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

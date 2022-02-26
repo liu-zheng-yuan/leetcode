@@ -71,16 +71,18 @@ public class No_One46_LruCache {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class LRUCache {
-        private int capacity;
         private Map<Integer, Node> map;
-        private Node head, tail;
+        private int capcity;
+        private Node head;
+        private Node tail;
 
         public LRUCache(int capacity) {
-            this.capacity = capacity;
             map = new HashMap<>();
             head = new Node(-1, -1);
             tail = new Node(-1, -1);
-            head.next = tail;//初始化时头尾也要连起来
+            capcity = capacity;
+            //首尾要连起来 *
+            head.next = tail;
             tail.prev = head;
         }
 
@@ -88,44 +90,43 @@ public class No_One46_LruCache {
             if (!map.containsKey(key)) {
                 return -1;
             }
-            //1.找到Node的指针
+            //找到并且将这个Node挪到head之后
             Node cur = map.get(key);
-            //2.从双链表里取出来：前后节点连起来
+            //先删除
             cur.prev.next = cur.next;
             cur.next.prev = cur.prev;
-            //3.放到最前面
+            //再放回到最前面
             cur.next = head.next;
             cur.prev = head;
-            //前后要接上
-            head.next = cur;
             cur.next.prev = cur;
+            head.next = cur;
             return cur.value;
+
         }
 
         public void put(int key, int value) {
-            //1.如果key已经存在，则直接修改对应Node，并移动到最前面
-            if (map.containsKey(key)) {//这种情况别忘了
-                Node cur = map.get(key);
-                cur.value = value;
-                get(key);//就算是移动到最前面
-                return;
+            //如果已经存在，直接修改，并且放在最前面
+            if (map.containsKey(key)) {
+                map.get(key).value = value;
+                get(key);
+                return;//直接返回 *
             }
-            //2.如果超出范围要删除
-            if (map.size() == capacity) {
-                //删除最少使用的
-                Node delete = tail.prev;
-                delete.prev.next = tail;
-                tail.prev = delete.prev;
-                map.remove(delete.key);
+            //如果超过容量，需要删除
+            if (map.size() == capcity) {
+                //删除最后一个
+                Node needDeleted = tail.prev;
+                needDeleted.prev.next = tail;
+                tail.prev = needDeleted.prev; //删除最后节点的操作也是对称的，也就是需要2步  *
+                map.remove(needDeleted.key);
             }
-            //3.新加入一个节点,加入到最前面
+            //正经加入一个新的
             Node cur = new Node(key, value);
             map.put(key, cur);
-            //
-            cur.prev = head;
+            //放在最前面
             cur.next = head.next;
-            head.next = cur;
+            cur.prev = head;
             cur.next.prev = cur;
+            head.next = cur;
         }
     }
 

@@ -47,7 +47,9 @@
 
 package com.company.leetcode.editor.cn;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class No_Three_LongestSubstringWithoutRepeatingCharacters {
@@ -58,7 +60,7 @@ public class No_Three_LongestSubstringWithoutRepeatingCharacters {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
-        public int lengthOfLongestSubstring(String s) {
+        public int lengthOfLongestSubstring1(String s) {
             //跟其他滑动数组的区别是：1.没有第二个用来比较的字符串 2.找到不是最短的而是最长的（其实没区别，只要把所有符合条件的子串都遍历一遍，就能找出最值）
             //本题对于子串的约束条件是：没有重复数字 ==》如何O1判断有无重复 ==》维护状态参数Set
             Set<Character> set = new HashSet<>();
@@ -90,6 +92,40 @@ public class No_Three_LongestSubstringWithoutRepeatingCharacters {
 
         private boolean isNeedShrink(Set<Character> set, char cur) {
             return set.contains(cur);
+        }
+
+        /**
+         * 一般的滑动窗口的题：都是移动right寻找可行解，移动left寻找最优解，即找最小的过程
+         * 而本题是，移动right找到最优解，移动left找到可行解。即找最大的过程。
+         * 所以，移动right和left本质上都是遍历的过程罢了。
+         * 如果是前者的情况，结果的更新应该放在 【left收缩过程中】，即【寻找最优解的过程中】
+         * 如果是后者的情况，结果的更新应该放在【right的过程中（但必须是left之后）】，也是【寻找最优解的过程中】（但是还是需要放在 寻找可行解即left收缩之后）
+         */
+        public int lengthOfLongestSubstring(String s) {
+            //滑动数组，范围[l,r)
+            int l = 0, r = 0;
+            Map<Character, Integer> map = new HashMap<>();//每个字符出现的次数
+            int max = 0;
+            while (r < s.length()) {
+                char curRight = s.charAt(r);
+                r++;
+                //更新状态
+                map.put(curRight, map.getOrDefault(curRight, 0) + 1);
+
+                //需要可行解的过程，由之前的逻辑保证while之后一定是可行解，所以不需要对以前的字符判断是否重复，只要对当前的字符判断是否是重复即可
+                //如果while left是寻找【最优解的过程】，判断条件就是 【符合题意的情况】，继续收缩找到最优解
+                //如果while left是寻找【可行解的过程】，判断条件就是 【不符合题意的情况】，继续收缩找到可行解
+                while (map.get(curRight) > 1) {
+                    char curLeft = s.charAt(l);
+                    l++;
+                    //更新 执行过程与right更新时完全镜像
+                    map.put(curLeft, map.get(curLeft) - 1);
+                }
+                //当前[l,r)中的字符串长度是r-l
+                max = Math.max(max, r - l);
+
+            }
+            return max;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

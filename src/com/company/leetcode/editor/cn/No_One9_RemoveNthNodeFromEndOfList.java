@@ -95,6 +95,10 @@ public class No_One9_RemoveNthNodeFromEndOfList {
             slow.next = slow.next.next;
             return h.next;
         }
+
+        public ListNode removeNthFromEnd(ListNode head, int n) {
+
+        }
     }
 
     //leetcode submit region end(Prohibit modification and deletion)

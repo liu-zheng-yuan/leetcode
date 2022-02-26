@@ -60,17 +60,19 @@ public class 二分搜索 {
                 right = mid - 1;
             } else if (nums[mid] == target) {
                 // 收缩右侧边界
-                right = mid - 1;
+                right = mid - 1;//决定了两个mid = target时，通过right--来退出，所以最后返回的应该是left
             }
         }
         /**
+         * 寻找左侧边界：就需要从右往左收缩，加上考虑target比所有数字都小、都大的情况
+         * 如果找不到target，通用的退出情况是left++到超过len-1和right--到小于0，然后需要根据找左边界还是右边界，处理这两个case
          * 检查出界情况：两者的区别是，从左侧逼近第一个符合条件的一定是左边界，从右侧逼近需要处理把左侧边界也收缩掉的特殊情况
          * left >= nums.length : 当target比所有数都大，left = length时的情况 （right = length -1）  因为不断扩展左边界，index = length -1 就是左边界的情况能找到，但是由于退出条件导致无target的情况下left会超过length，所以需要处理这种情况
          * nums[left] != target ：当target比所有数都小，right = -1 时的情况 （left = 0） 因为不断收缩右边界，可能明明index = 0就是最左边界了，但是由于0的左侧没有数字了，还是被收缩掉了，这种特殊情况需要额外判断
          */
         if (left >= nums.length || nums[left] != target)
             return -1;
-        return left;
+        return left;//怎么判断最后选择left还是left-1：用[1]这个只有一个元素的数组走一遍逻辑，如果是right--达成退出条件（left<=right)，那么就是left；如果是left++达成退出条件，就是left-1
     }
 
     //寻找右侧边界的二分搜索-左闭右开
@@ -111,10 +113,12 @@ public class 二分搜索 {
                 right = mid - 1;// 搜索区间变为 [left, mid-1]
             } else if (nums[mid] == target) {
                 // 收缩左侧边界
-                left = mid + 1;
+                left = mid + 1;//决定了两个mid = target时，通过left++来退出，所以最后返回的应该是left-1
             }
         }
         /**
+         * 寻找右侧边界：就需要从左往右收缩，加上考虑target比所有数字都小、都大的情况
+         * 如果找不到target，通用的退出情况是left++到超过len-1和right--到小于0，然后需要根据找左边界还是右边界，处理这两个case
          * 搜索区间是[0,length-1] => right初始值是length-1;退出条件是 left = right+1 => left的取值范围是 [0,length]  => 所以left -1 的范围是[-1,length-1]
          * 所以两种特殊情况分别对应的是:(右侧区间的实质是:比target大的数字的个数)
          * 1.target比所有数都大:left 一直转移到 length的极端情况,由于不管是mid=target还是mid<target,都是left会+1,所以不管num[length-1]是不是右边界,退出时一定是left=length,所以需要额外判断一下num[length-1]是不是右边界
@@ -122,7 +126,7 @@ public class 二分搜索 {
          */
         if (left == 0 || nums[left - 1] != target)
             return -1;
-        return left - 1;
+        return left - 1;//怎么判断最后选择left还是left-1：用[1]这个只有一个元素的数组走一遍逻辑，如果是right--达成退出条件（left<=right)，那么就是left；如果是left++达成退出条件，就是left-1
     }
 
     /**
