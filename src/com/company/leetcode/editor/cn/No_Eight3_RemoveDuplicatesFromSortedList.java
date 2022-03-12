@@ -49,7 +49,7 @@ public class No_Eight3_RemoveDuplicatesFromSortedList {
      * }
      */
     class Solution {
-        public ListNode deleteDuplicates(ListNode head) {
+        public ListNode deleteDuplicates1(ListNode head) {
             //这题可以使用虚拟头结点来避免head == null，但是注意val不要填的和真实数据重复了，不然虚拟头结点就影响了真实结果
             ListNode newHead = new ListNode(-9999999);
             newHead.next = head;
@@ -63,6 +63,24 @@ public class No_Eight3_RemoveDuplicatesFromSortedList {
             }
             //注意：如果末尾元素有重复，需要断掉slow跟后面元素的链接,比如 1 2 3 3 的情况
             slow.next = null;
+            return newHead.next;
+        }
+
+        public ListNode deleteDuplicates(ListNode head) {
+            ListNode newHead = new ListNode(-10000);
+            newHead.next = head;//** 使用虚拟头结点之前，需要把头结点和原head连上
+            ListNode fast = newHead;
+            ListNode slow = newHead;
+            while (fast != null) {
+                if (slow.val == fast.val) {
+                    fast = fast.next;
+                } else {
+                    slow.next = fast;
+                    fast = fast.next;
+                    slow = slow.next;
+                }
+            }
+            slow.next = null;//** 要断开slow和之后重复元素的链接
             return newHead.next;
         }
     }

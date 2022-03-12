@@ -65,7 +65,7 @@ public class No_Nine8_ValidateBinarySearchTree {
         }
 
         //三合一函数：同时返回1.是不是bst 2.该树中最小值 3.该数中最大值
-        public Long[] recusion(TreeNode root) {
+        public Long[] recusion1(TreeNode root) {
             if (root == null) {
                 return new Long[]{1L, Long.MAX_VALUE, Long.MIN_VALUE};
             }
@@ -80,6 +80,23 @@ public class No_Nine8_ValidateBinarySearchTree {
                 return new Long[]{1L, min, max};
             }
             return new Long[]{0L, min, max};
+        }
+
+        //三合一函数：同时返回1.是不是bst 2.该树中最大值 3.该数中最小值
+        public Long[] recusion(TreeNode root) {
+            if (root == null) {
+                return new Long[]{1L, Long.MIN_VALUE, Long.MAX_VALUE};
+            }
+            //
+            Long[] left = recusion(root.left);
+            Long[] right = recusion(root.right);
+            Long min = Math.min(Math.min(left[2], right[2]), root.val);
+            Long max = Math.max(Math.max(left[1], right[1]), root.val);
+            //判断当前根节点是不是bst
+            if (left[0] == 1 && right[0] == 1 && root.val > left[1] && root.val < right[2]) {
+                return new Long[]{1L, max, min};
+            }
+            return new Long[]{0L, max, min};//
         }
     }
 

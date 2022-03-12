@@ -74,7 +74,7 @@ public class No_Two5_ReverseNodesInKGroup {
      * }
      */
     class Solution {
-        public ListNode reverseKGroup(ListNode head, int k) {
+        public ListNode reverseKGroup1(ListNode head, int k) {
             if (head == null) {
                 return null;
             }
@@ -100,6 +100,33 @@ public class No_Two5_ReverseNodesInKGroup {
             head.next = reverseKGroup(kP, k);
 
             return pre;
+        }
+
+        public ListNode reverseKGroup(ListNode head, int k) {
+            if (head == null) {
+                return null;
+            }
+            //当前这一组节点的第一个后继节点（比如 0,1节点是一组，k=2，找到 2这个节点，从0开始走2步）
+            ListNode kp = head;
+            for (int i = 0; i < k; i++) {
+                if (kp != null) {
+                    kp = kp.next;
+                } else {
+                    return head;//剩下的节点数不足k
+                }
+            }
+            //翻转从[head,kp]的节点
+            ListNode pre = null, cur = head, next = head;
+            while (cur != kp) {
+                next = cur.next;
+                cur.next = pre;
+                pre = cur;
+                cur = next;
+            }
+            //这里pre就是翻转后这一组里的第一个节点，head是反转后最后一个节点
+            head.next = reverseKGroup(kp, k);
+            return pre;
+
         }
     }
 
