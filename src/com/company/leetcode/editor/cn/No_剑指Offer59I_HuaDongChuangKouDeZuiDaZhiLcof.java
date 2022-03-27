@@ -44,7 +44,7 @@ public class No_剑指Offer59I_HuaDongChuangKouDeZuiDaZhiLcof {
             for (int i = 0; i < nums.length; i++) {
                 if (i < k) {
                     queueAdd(queue, nums[i]);
-                    //第一次滑动窗口里元素有k个时，要继续一下队首值，就是最大值
+                    //第一次滑动窗口里元素有k个时，要记录一下队首值，就是最大值
                     if (i == k - 1) {
                         res.add(queue.peekFirst());
                     }

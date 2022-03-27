@@ -52,32 +52,32 @@ public class No_剑指Offer14I_JianShengZiLcof {
             return dp[n];
         }
 
-
-        //定义：长n的绳子，最少分成2段，可能的最大乘积。
-        public int recusion(int n) {
-            //边界条件，切的过程中会出现
-            if (n == 1) {
-                return 1;
-            }
-            if (n == 2) {
-                return 1;
-            }
-            //
-            int res = 0;//保存每种选择能产生的最大值
-            //对于长n的绳子，从下标1到下标n-1，一共n-1种状态都能选择“切”或者不切“。比如对于长度为3的绳子，线段开头是0，结尾是3，只能在1,2的下标的地方切，不能在下标0和3的地方切（那样还是长度3）
-            for (int i = 1; i <= n - 1; i++) {
-                //切完后左边的长度
-                int left = i;
-                //右边的长度
-                int right = n - i;
-                //按当前切法切了之后的“结果”
-                int curRes = recusion(left) * recusion(right);
-                //
-                res = Math.max(curRes, res);
-            }
-            return res;
-
-        }
+//         错误逻辑
+//        //定义：长n的绳子，最少分成2段，可能的最大乘积。
+//        public int recusion(int n) {
+//            //边界条件，切的过程中会出现
+//            if (n == 1) {
+//                return 1;
+//            }
+//            if (n == 2) {
+//                return 1;
+//            }
+//            //
+//            int res = 0;//保存每种选择能产生的最大值
+//            //对于长n的绳子，从下标1到下标n-1，一共n-1种状态都能选择“切”或者不切“。比如对于长度为3的绳子，线段开头是0，结尾是3，只能在1,2的下标的地方切，不能在下标0和3的地方切（那样还是长度3）
+//            for (int i = 1; i <= n - 1; i++) {
+//                //切完后左边的长度
+//                int left = i;
+//                //右边的长度
+//                int right = n - i;
+//                //按当前切法切了之后的“结果”
+//                int curRes = recusion(left) * recusion(right);
+//                //
+//                res = Math.max(curRes, res);
+//            }
+//            return res;
+//
+//        }
     }
 //leetcode submit region end(Prohibit modification and deletion)
 
