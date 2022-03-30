@@ -112,7 +112,9 @@ class Node {
 //        }
 
         public Node treeToDoublyList(Node root) {
+            //连接成链表返回头结点
             Node newHead = recusive(root);
+            //找到最后一个节点，把头尾连上
             Node tail = newHead;
             while (tail != null && tail.right != null) {
                 tail = tail.right;

@@ -63,20 +63,21 @@ public class No_Nine2_ReverseLinkedListIi {
         }
 
 
-        //翻转前n个节点
+        //第n个节点的后继（即第n+1个节点），后序翻转完后要指向这个后继
         ListNode successor = null;
 
         public ListNode reverseN(ListNode head, int n) {
             //边界情况是1，而不是0，没有前0个的说法
             if (n == 1) {
-                successor = head.next;
+                successor = head.next;//记录
                 return head;
             }
             //翻转当前节点head
-            ListNode next = reverseN(head.next, n - 1);
-            head.next.next = head;
+            //nextHead是递归结束后的头结点，后面需要返回她
+            ListNode nextHead = reverseN(head.next, n - 1);
+            head.next.next = head;//反转当前的head节点，让head的后继指向它
             head.next = successor;//从最后边界调节返回时，当前head的next就指向了n+1个节点，也就是不会变的后继节点，递归过程中的每个head都会指向后继
-            return next;
+            return nextHead;
         }
     }
 
